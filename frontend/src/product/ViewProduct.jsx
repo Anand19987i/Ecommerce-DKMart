@@ -48,12 +48,13 @@ const ViewProduct = () => {
                 ) : products.length > 0 ? (
                     <div className="flex flex-wrap  gap-2">
                         {products.map((product) => (
-                            <div 
-                                key={product?._id} 
-                                className="w-[48%] sm:w-[32%] md:w-[23%] lg:w-[22%] xl:w-[18%] p-1"
+                            <div
+                                key={product?._id}
+                                className="w-[48%] sm:w-[45%] md:w-[23%] lg:w-[22%] xl:w-[18%] p-1"
                             >
                                 <ProductCard product={product} />
                             </div>
+
                         ))}
                     </div>
                 ) : (
