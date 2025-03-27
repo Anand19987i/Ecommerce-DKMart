@@ -188,7 +188,7 @@ const Navbar = () => {
               {/* Shopping Cart Icon with Badge */}
               <div className="relative">
                 <Link to={`/${user?.name}/cart/section`}>
-                  <img src="/public/shopping-cart.png" alt="Cart" className="w-7 h-7 cursor-pointer" />
+                  <img src="/shopping-cart.png" alt="Cart" className="w-7 h-7 cursor-pointer" />
 
                   {totalCartItems > 0 && (
                     <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
@@ -200,7 +200,7 @@ const Navbar = () => {
 
               {/* Profile Picture - Opens Sidebar */}
               <img
-                src={userDetail?.avatar || "/public/default-pic.avif"}
+                src={userDetail?.avatar || "/default-pic.avif"}
                 alt="Profile"
                 className="rounded-full w-9 h-9 cursor-pointer"
                 onClick={() => setIsSidebarOpen(true)}
