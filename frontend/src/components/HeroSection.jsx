@@ -1,4 +1,3 @@
-"use client"
 
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
@@ -34,7 +33,7 @@ const HeroSection = () => {
     <div className="relative overflow-hidden">
       {/* Background gradient and pattern */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-indigo-50 opacity-80"></div>
-      <div className="absolute inset-0 bg-[url('/pattern.png')] opacity-10"></div>
+      
 
       {/* Floating shapes for visual interest */}
       <div className="absolute -top-20 -right-20 w-64 h-64 bg-yellow-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
