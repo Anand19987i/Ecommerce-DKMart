@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { PRODUCT_API_END_POINT } from "../utils/constant";
 import ProductCard from "./ProductCard";
 import Navbar from "../components/Navbar";
@@ -46,7 +46,7 @@ const ViewProduct = () => {
                         <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
                     </div>
                 ) : products.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <div className="grid grid-cols-2 gap-1 sm:gap-2 md:grid-cols-3 lg:grid-cols-4">
                         {products.map((product) => (
                             <ProductCard key={product?._id} product={product} />
                         ))}
