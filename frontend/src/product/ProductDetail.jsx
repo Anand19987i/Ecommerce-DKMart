@@ -157,7 +157,7 @@ const ProductDetail = () => {
                                 <div className="mt-6">
                                     {showPopup && (
                                         <div className="flex gap-2 fixed bottom-10 right-[40%] bg-gray-500 text-white px-4 py-2 rounded-lg shadow-lg transition-opacity items-center duration-500">
-                                            <img src="/public/checked.png" alt="" className="w-4 h-4 " /> Item added to the cart!
+                                            <img src="/checked.png" alt="" className="w-4 h-4 " /> Item added to the cart!
                                         </div>
                                     )}
                                     <button onClick={handleAddToCart} className="w-full text-white sm:w-auto cursor-pointer flex items-center justify-center bg-blue-600 gap-2 border border-gray-400 px-6 py-3 rounded-lg font-medium hover:bg-gray-200 transition">

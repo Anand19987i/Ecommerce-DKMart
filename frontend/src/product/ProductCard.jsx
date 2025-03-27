@@ -82,7 +82,7 @@ const ProductCard = ({ product }) => {
           {/* Add to Cart Popup */}
           {showPopup && (
             <div className="flex gap-2 fixed bottom-10 right-[40%] bg-gray-500 text-white px-4 py-2 rounded-lg shadow-lg transition-opacity items-center duration-500">
-              <img src="/public/checked.png" alt="" className="w-4 h-4" /> Item added to the cart!
+              <img src="/checked.png" alt="" className="w-4 h-4" /> Item added to the cart!
             </div>
           )}
 
