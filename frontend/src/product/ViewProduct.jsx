@@ -46,9 +46,11 @@ const ViewProduct = () => {
                         <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
                     </div>
                 ) : products.length > 0 ? (
-                    <div className="grid grid-cols-2 gap-1 sm:gap-2 md:grid-cols-3 lg:grid-cols-4">
+                    <div className="grid grid-cols-2 gap-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4 justify-center">
                         {products.map((product) => (
-                            <ProductCard key={product?._id} product={product} />
+                            <div key={product?._id} className="max-w-[150px] mx-auto sm:max-w-full">
+                                <ProductCard product={product} />
+                            </div>
                         ))}
                     </div>
                 ) : (
