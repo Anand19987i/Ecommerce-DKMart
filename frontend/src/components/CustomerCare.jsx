@@ -5,7 +5,7 @@ const CustomerCare = () => {
     <div className="flex flex-col lg:flex-row items-center justify-center bg-gray-50  p-5">
       {/* Image Section */}
       <div className="flex justify-center lg:justify-start">
-        <img src="/public/delivery.jpg" alt="Fast Delivery" className="w-96 h-auto rounded-lg" />
+        <img src="/delivery.jpg" alt="Fast Delivery" className="w-96 h-auto rounded-lg" />
       </div>
 
       {/* Content Section */}
