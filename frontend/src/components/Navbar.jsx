@@ -125,7 +125,7 @@ const Navbar = () => {
       <div className="container mx-auto flex justify-between items-center px-4 py-3">
         {/* Left Section: Logo */}
         <Link to="/" className="flex items-center gap-1 z-10">
-          <img src="icon.png" className="h-12 w-12 text-blue-400" />
+          <img src="/icon.png" className="h-12 w-12 text-blue-400" />
           <h1 className="text-3xl font-bold text-black">
             <span className="">DK</span>Mart
           </h1>
