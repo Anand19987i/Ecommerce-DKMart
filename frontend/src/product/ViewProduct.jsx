@@ -36,19 +36,22 @@ const ViewProduct = () => {
     return (
         <>
             <Navbar />
-            <div className="max-w-6xl mx-auto p-4 sm:p-6">
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 capitalize text-center">
+            <div className="max-w-6xl mx-auto p-5">
+                <h2 className="text-2xl font-bold text-gray-800 mb-5 capitalize text-center">
                     {type.replace("-", " ")} Products
                 </h2>
 
                 {loading ? (
-                    <div className="flex justify-center items-center h-40">
+                    <div className="flex justify-center mt-[10%] items-center h-40">
                         <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
                     </div>
                 ) : products.length > 0 ? (
-                    <div className="grid grid-cols-2 gap-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4 justify-center">
+                    <div className="flex flex-wrap  gap-2">
                         {products.map((product) => (
-                            <div key={product?._id} className="max-w-[150px] mx-auto sm:max-w-full">
+                            <div 
+                                key={product?._id} 
+                                className="w-[48%] sm:w-[32%] md:w-[23%] lg:w-[22%] xl:w-[18%] p-1"
+                            >
                                 <ProductCard product={product} />
                             </div>
                         ))}
