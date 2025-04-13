@@ -10,19 +10,28 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         {
-          src: 'public/_redirects', // Source path
-          dest: '.' // Destination path in build/ directory
+          src: 'public/_redirects',
+          dest: '.'
         }
       ]
     })
   ],
-  build: {
-    outDir: 'build', // Ensure build folder is named 'build'
-  },
   server: {
+    historyApiFallback: true,
+    proxy: {
+      '/api': {
+        target: 'https://ecommerce-dkmart.onrender.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
     headers: {
       "Content-Security-Policy": 
         "frame-ancestors 'self' https://www.gstatic.com https://www.google.com;",
     },
+  },
+  build: {
+    outDir: 'build', // Changed from 'build' to 'dist' (Vite default)
+    emptyOutDir: true,
   },
 })

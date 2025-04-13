@@ -1,7 +1,11 @@
 {
+    "clean_urls": false,
     "routes": {
-      "/**": {
-        "origin": "/index.html"
-      }
+        "/**": {
+            "origin": "/index.html",
+            "headers": {
+                "Cache-Control": "no-cache"
+            }
+        }
     }
-  }
+}
