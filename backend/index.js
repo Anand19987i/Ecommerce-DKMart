@@ -7,7 +7,6 @@ import connectDB from "./config/db.js";
 import userRoute from "./routes/user.route.js"
 import productRoute from "./routes/product.route.js"
 import orderRoute from "./routes/order.route.js"
-import path from "path";
 
 
 dotenv.config({})
@@ -25,11 +24,6 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.use(express.static(path.join(__dirname, '../frontend/build')));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
-});
 
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/product", productRoute);
