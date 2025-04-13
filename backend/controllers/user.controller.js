@@ -248,6 +248,7 @@ export const adminLogin = async (req, res) => {
     }
 };
 
+
 const transporter = nodemailer.createTransport({
     service: "Gmail",
     auth: {
