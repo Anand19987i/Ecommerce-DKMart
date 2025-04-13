@@ -31,7 +31,7 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: 'build', // Changed from 'build' to 'dist' (Vite default)
+    outDir: 'build', // 
     emptyOutDir: true,
   },
 })

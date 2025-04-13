@@ -33,7 +33,6 @@ const LoginWithEmail = () => {
         withCredentials: true,
       });
 
-      console.log("Login Response:", response.data.user);
       if (response.data.success) {
         dispatch(setUser(response.data.user))
         navigate("/"); // Redirect after successful login
