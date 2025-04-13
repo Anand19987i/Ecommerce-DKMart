@@ -1,12 +1,12 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { LogOut, LayoutDashboard, ShoppingBag, Users, Package } from "lucide-react";
+import { LogOut, LayoutDashboard, ShoppingBag, Users, Package, PackagePlus } from "lucide-react";
 import axios from "axios";
 import { USER_API_END_POINT } from "../utils/constant";
 
 const AdminNav = () => {
   const navigate = useNavigate();
-  const logout  = async () => {
+  const logout = async () => {
     localStorage.removeItem("adminToken");
     navigate("/admin-login");
   }
@@ -26,6 +26,9 @@ const AdminNav = () => {
           </Link>
           <Link to="/admin/products" className="flex items-center gap-2 hover:text-blue-400 transition">
             <Package className="w-5 h-5" /> Products
+          </Link>
+          <Link to="/create/product" className="flex items-center gap-2 hover:text-blue-400 transition">
+            <PackagePlus className="w-5 h-5" /> Add Products
           </Link>
           <Link to="/admin/users" className="flex items-center gap-2 hover:text-blue-400 transition">
             <Users className="w-5 h-5" /> Users
