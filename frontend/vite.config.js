@@ -3,16 +3,20 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { copyFileSync } from 'fs'
 
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(),
+  plugins: [
+    react(),
     {
       name: 'copy-redirects',
       closeBundle() {
-        copyFileSync('public/_redirects', 'dist/_redirects')
+        copyFileSync('public/_redirects', 'build/_redirects') // <- change from dist to build
       },
     },
-    tailwindcss()],
+    tailwindcss(),
+  ],
+  build: {
+    outDir: 'build', // <- VERY IMPORTANT!
+  },
   server: {
     headers: {
       "Content-Security-Policy":
