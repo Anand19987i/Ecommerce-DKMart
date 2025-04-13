@@ -249,75 +249,135 @@ export const adminLogin = async (req, res) => {
 };
 
 
+// Configure transporter with proper settings
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
+    port: 587,
+    secure: false, // true for 465, false for other ports
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
     },
+    tls: {
+        rejectUnauthorized: false // For local testing only, remove in production
+    }
+});
+
+// Verify transporter connection
+transporter.verify((error) => {
+    if (error) {
+        console.error('SMTP Connection Error:', error);
+    } else {
+        console.log('SMTP Server is ready to send emails');
+    }
 });
 
 export const sendOtp = async (req, res) => {
     const { email } = req.body;
-    const user = await User.findOne({ email });
-    if (!user) {
-        return res.status(400).json({ success: false, message: 'Email is not registered' })
-    }
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const token = jwt.sign({ otp }, process.env.JWT_SECRET, { expiresIn: '10m' });
-
-    const mailOptions = {
-        from: process.env.EMAIL_USER,
-        to: email,
-        subject: `DKMart: Your Sign-In Verification Code for Secure Access`,
-        text: `
-            Dear User,
     
-            Thank you for choosing DKMart! We are excited to have you on board. 
-    
-            As part of our commitment to providing a secure platform, we have generated a one-time password (OTP) to verify your identity and ensure only you can access your account.
-    
-            Your OTP is: **${otp}**
-    
-            Please note:
-            - This OTP is valid for the next 10 minutes only.
-            - Do not share this OTP with anyone, as it is unique to your account.
-            - If you did not request this verification, please disregard this email.
-    
-            To proceed with logging into your account, simply enter this OTP on the DKMart platform.
-    
-            If you have any issues or need assistance, please feel free to reach out to our support team at anandofficialxsrc@gmail.com.
-    
-            Best regards,
-            The DKMart Team
-        `
-    };
-
     try {
-        await transporter.sendMail(mailOptions);
-        res.json({ success: true, message: 'OTP sent successfully', token });
+        // Validate email format
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            return res.status(400).json({ success: false, message: 'Please provide a valid email address' });
+        }
 
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ success: false, message: 'Email is not registered' });
+        }
+
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        const token = jwt.sign({ otp, email }, process.env.JWT_SECRET, { expiresIn: '10m' });
+
+        const mailOptions = {
+            from: `DKMart <${process.env.EMAIL_USER}>`,
+            to: email,
+            subject: `DKMart: Your Sign-In Verification Code`,
+            html: `
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                    <h2 style="color: #2563eb;">DKMart Account Verification</h2>
+                    <p>Dear User,</p>
+                    <p>Your one-time verification code is:</p>
+                    <div style="background: #f3f4f6; padding: 15px; text-align: center; margin: 20px 0; font-size: 24px; font-weight: bold; letter-spacing: 2px;">
+                        ${otp}
+                    </div>
+                    <p>This code will expire in 10 minutes. If you didn't request this, please ignore this email.</p>
+                    <p style="margin-top: 30px;">Best regards,<br/>The DKMart Team</p>
+                </div>
+            `
+        };
+
+        await transporter.sendMail(mailOptions);
+        res.json({ 
+            success: true, 
+            message: 'OTP sent successfully', 
+            token,
+            email // Return email for verification step
+        });
 
     } catch (error) {
-        console.log("Error in sending otp  :  ", error)
-        res.status(500).json({ message: 'Error sending OTP', error });
+        console.error("Error in sending OTP:", error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Error sending OTP', 
+            error: error.message 
+        });
     }
 }
 
 export const verifyOtp = async (req, res) => {
     const { otp, token, email } = req.body;
+    
     try {
-        const user = await User.findOne({ email });
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-        if (decoded.otp === otp) {
-            res.status(201).json({ success: true, message: 'OTP verified successfully', user });
-        } else {
-            res.status(400).json({ message: 'Invalid OTP' });
+        // Validate inputs
+        if (!otp || !token || !email) {
+            return res.status(400).json({ success: false, message: 'All fields are required' });
         }
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        
+        // Additional verification that the email matches
+        if (decoded.email !== email) {
+            return res.status(400).json({ success: false, message: 'Invalid token for this email' });
+        }
+
+        if (decoded.otp !== otp) {
+            return res.status(400).json({ success: false, message: 'Invalid OTP' });
+        }
+
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        // Generate auth token for login
+        const authToken = jwt.sign(
+            { userId: user._id, email: user.email }, 
+            process.env.JWT_SECRET, 
+            { expiresIn: '1d' }
+        );
+
+        res.status(200).json({ 
+            success: true, 
+            message: 'OTP verified successfully', 
+            user: {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role
+            },
+            token: authToken
+        });
+
     } catch (error) {
-        res.status(400).json({ message: 'Invalid or expired token', error });
+        console.error("Error in OTP verification:", error);
+        if (error.name === 'TokenExpiredError') {
+            return res.status(400).json({ success: false, message: 'OTP has expired' });
+        }
+        res.status(400).json({ 
+            success: false, 
+            message: 'Invalid or expired token', 
+            error: error.message 
+        });
     }
 }

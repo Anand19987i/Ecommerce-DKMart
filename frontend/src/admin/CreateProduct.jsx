@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { PRODUCT_API_END_POINT } from "../utils/constant";
 import Navbar from "../components/Navbar";
+import AdminNav from "./AdminNav";
 
 const CreateProduct = () => {
     const [formData, setFormData] = useState({
@@ -82,7 +83,7 @@ const CreateProduct = () => {
 
     return (
         <>
-        <Navbar/>
+        <AdminNav />
         <div className="max-w-4xl mx-auto bg-white shadow-xl rounded-lg p-6 my-10">
             <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">Create New Product</h2>
             {error && <p className="text-red-500 text-center">{error}</p>}
