@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: dkmart-frontend
+    env: static
+    staticPublishPath: "./build"  # or your build directory
+    routes:
+      - type: rewrite
+        source: "/*"
+        destination: "/index.html"
