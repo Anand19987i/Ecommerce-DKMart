@@ -48,6 +48,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
         <div className="mt-10">
           <Link to={`/profile/${user?.name}/${user?._id}`}><p className="p-3  border-b border-gray-300 cursor-pointer">Edit Profile</p></Link>
           <Link to={`/orders/${user?.name}/${user?._id}`}><p className="p-3  border-b border-gray-300 cursor-pointer">Your Orders</p></Link>
+          <Link to={`/admin/dashboard`}><p className="p-3  border-b border-gray-300 cursor-pointer">Admin Dashboard</p></Link>
           <p onClick={logout} className="p-3 border-b border-gray-300 cursor-pointer">Sign Out</p>
         </div>
       </div>
